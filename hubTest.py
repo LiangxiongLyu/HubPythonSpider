@@ -20,8 +20,8 @@ try:
     ####表单提交地址
     url2='https://pass.hust.edu.cn/cas/login?service=http%3A%2F%2Fhubs.hust.edu.cn%2Fhustpass.action'
     post2={
-        'username':'56ff07f249594f8e7ec6f9101ff4a2fc2287f81293dd5e400c23cb19805136d35f46598bf8f1b13932b62f1f4ed25e1bb65ad5fd663a56c4312becbb69a0da32d37314b3097ef5d15944997f4bb0d98a7b34607939f694e54e7169d23b997fce95d625bec5414eb263c09d0a79c58ddd6628552952e2f7ef53ec037d66ff8222',
-        'password':'1fb8cd2ca5b1ceb208d3d52210dcb3d3ae990c35ad3dce7da43ce51f0b50c7be011e87d510db09fd6fd640d58ed7022838014716a821dc828d27bc190cdea2c6f84d165b551dd3bb6b732e17f7af6781dce6d210d2b2e2711a6c4eca086919313d9e52edbd11ef041e22f2e182f3779b8eb2785f825b4d269634c3af85bec800',
+        'username':'XXXXXX',
+        'password':'XXXXXXXXXXXXXXX',
         'code':'code',
         'lt':'LT-NeusoftAlwaysValidTicket',
         'execution':'e1s1',

@@ -1,0 +1,664 @@
+如下为测试的抓取结果！！！
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>华中科技大学</title>
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<link href="/css/main.css" rel="stylesheet" />
+		<!--[if lte IE 6]>
+			<link href="/css/ie.css" rel="stylesheet" />
+        <![endif]-->
+        
+        <script src="/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+        <script src="/js/hub.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+		<!-- header -->
+		
+
+<script type="text/javascript">
+<!--
+function zhuxiao(){
+	document.logout_frm.submit();
+}
+//-->
+</script>
+
+<div class="header">
+	<div class="headerb">
+		<div class="logo" title="App:app41.dc.hust.edu.cn:app412" onclick="window.location.href='/hub.jsp'" style="cursor: pointer;"></div>
+		<div class="headern">
+			华中科技大学教学信息服务平台
+		</div>
+		
+		<form action="/logout.action" name="logout_frm" id="logout_frm">
+		<div class="logout pointer" onclick="zhuxiao()">
+			<div class="logouts"></div>
+			<span>退出</span>
+		</div>
+		</form>
+	</div>
+</div>
+		<!-- header end -->
+
+		<!-- body -->
+		<div class="contents">
+			<!-- 菜单、个人信息 -->
+			
+
+
+
+
+<style type="text/css">
+ .select_menu{
+ 	width:80px;
+ 	background-color: #FFFFFF;
+ 	color: #858585;
+ 	position: absolute;
+ 	z-index: 100;
+ 	margin-top: 13px;
+ 	margin-left: -82px;
+ 	padding: 5px;
+ 	font-size: 15px;
+ 	display: none;
+ 	text-align: center;
+ }
+ 
+ .select_menu ul li{height: 30px;line-height: 30px;border-bottom: 0px dashed #d3d6de;width: 98%;}
+</style>
+ 
+<script type="text/javascript">
+$(function(){
+	var ishubjsp = $("#ishubjsp").val();
+	if(ishubjsp!="1"){
+		$('.contentsl').height($('.contentsr').height() + 28) //根据内容调整菜单高度
+	}
+	
+	
+		showmenu("0","menu_ul");
+	
+
+	
+	
+	$.ajax({
+		type:"post",
+		dataType:"text",
+		url:"/userindex/unreadNotCon.action",
+		success:function(data){
+			var con_ = parseInt(data);
+			
+			if(con_>99)	con_=99;
+			
+			if(con_>=10){
+				$("#span_con").css("margin-right","5px");
+			}else{
+				$("#span_con").css("margin-right","8px");
+			}
+		
+			$("#span_con").text(con_);
+		},
+		error:function(a,b,c){
+			alert("查询未读消息条数出现错误："+c);
+		}
+	})
+	
+		
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			url:"/userindex/weather.action",
+			success:function(data){
+				if(data.length>0){
+					var code = data[0].CODE;
+					var txt = data[0].TXT;
+					var tmp = data[0].TMP;
+					
+					$(".weather_tmp").html(tmp+"<span style='font-size:16px;'>℃</span>");
+					
+					$(".weather_img").empty();
+					$(".weather_img").append("<img src='/images/weather/"+code+".png' title='"+txt+"'/>");
+				}
+				
+				//alert($(".weather").html());
+			},
+			error:function(a,b,c){
+				alert("获取天气信息失败："+c);
+			}
+		})
+	
+	
+	
+	$(".showmenu2").click(function(){
+		$(".select_menu").show("fast");
+	})
+	
+	$(".showmenu2").mouseleave(function(){
+		$(".select_menu").hide("fast");
+	})
+	
+	$(".select_menu_span").mouseover(function(){
+		$(this).css('color','#000000')
+	})
+	
+	$(".select_menu_span").mouseout(function(){
+		$(this).css('color','#6A6B6F')
+	})
+})
+
+function showmenu(sjcdbh,id){
+	if($("#"+id).html()==""||$("#"+id).html()==null){
+	
+		if(sjcdbh!="0"){
+			$("#"+id).append('<a href="#"><img src="/images/loading.gif" style="margin-top: 7px;"/></a>');
+		}
+		
+		$.ajax({
+			type:"post",
+			dataType:"json",
+			url:"/showmenu.action",
+			data:"sjcdbh="+sjcdbh,
+			success:function(data){
+				$("#"+id).empty();
+				if(data.length>0){
+					for(var i=0;i<data.length;i++){
+						var cdmc = data[i].cdmc;
+						var url = data[i].url;
+						var cdbh = data[i].cdbh;
+						
+						if(sjcdbh=="0"){ //子菜单
+							
+							if(url=="#"||url==""||url==null){
+								$("#"+id).append('<li onclick="showmenu(\''+cdbh+'\'\,\'menu_'+cdbh+'\')" id="li_'+cdbh+'"><span><i class="contentsl-i contentsl-i'+(i+1)+'"></i>'+cdmc+'</span><div class="contentslnav" id="menu_'+cdbh+'"></div></li>');
+							}else{
+								$("#"+id).append('<li onclick="javascript:window.location.href=\''+url+'\'"><span><i class="contentsl-i contentsl-i'+(i+1)+'"></i>'+cdmc+'</span></li>');
+							}
+							
+							
+							/*
+							if(i==0){
+								$("#"+id).append('<li onclick="showmenu(\''+cdbh+'\'\,\'menu_'+cdbh+'\')" id="li_'+cdbh+'"><span><i class="contentsl-i contentsl-i'+(i+1)+'"></i>'+cdmc+'</span><div class="contentslnav" id="menu_'+cdbh+'"></div></li>');
+								//showmenu(cdbh,"memu_"+cdbh);
+							}else{
+								$("#"+id).append('<li onclick="showmenu(\''+cdbh+'\'\,\'menu_'+cdbh+'\')" id="li_'+cdbh+'"><span><i class="contentsl-i contentsl-i'+(i+1)+'"></i>'+cdmc+'</span><div class="contentslnav" id="menu_'+cdbh+'"></div></li>');
+							}
+							*/
+						}else{
+							$("#"+id).append('<a href="'+url+'"><i></i>'+cdmc+'</a>');
+						}
+					}
+				}else{
+					//alert("11");
+					$("#"+id).append('<a href="#"><i></i>暂无内容</a>');
+				}
+				
+				//alert($("#menu_ul").html());
+				
+			},
+			error:function(a,b,c){
+				alert(c);
+			}
+		})
+	}
+	
+	var ishubjsp = $("#ishubjsp").val();
+	if(ishubjsp!="1"){
+		$('.contentsl').height($('.contentsr').height() + 28)  //不是hub.jsp则重定菜单高度
+	}
+}
+
+</script>
+
+<div class="contentsn">
+	<div class="contentsnimg"></div>
+	<div class="contentsnt"></div>
+	<div class="flr">
+		<div class="notice pointer">
+			<div class="notice2">
+				<i><span style="text-align: center" id="span_con"></span></i>
+				<!-- 
+				<div class="notice3">我的信息</div>
+				 -->
+			</div>
+		</div>
+		<div class="name pointer">
+			<div class="name2">
+			本科生
+			</div>
+			<div class="name3">欢迎! 吕良雄</div>
+			<span class="showmenu2">
+			<div class="name4" style="border-radius:50%; overflow:hidden;"><img src="/photo/getLoginphoto.action?sfid=U201310604&key1=779486&key2=78255f1d42199ec5ddbcb6385109f373"></div>
+			<div class="name5">
+				<div class="select_menu">
+					<ul>
+						<li><span class="select_menu_span" onclick="javascript:window.location.href='/maintenceAccSec/MaintencePw!ReadyToMaintencePw.action'">我的密码</span></li>
+						<li><span class="select_menu_span" onclick="javascript:window.location.href='/maintenceAccSec/MaintencePw!ReadyToModifySecQue.action'">机密问题</span></li>
+						<li><span class="select_menu_span" onclick="javascript:window.location.href='/personal/search_1.action'">个人信息</span></li>
+						<li><span class="select_menu_span" onclick="javascript:window.location.href='/personal/showphotoInfo.jsp'">照片维护</span></li>
+						<li><span class="select_menu_span" onclick="javascript:window.location.href='/maillist/ManageMailList!queryMailListByParam.action'">订阅/退订</span></li>
+						<li><span class="select_menu_span" onclick="javascript:window.location.href='/WeChat/bindingRecord.action'">HUB微信</span></li>
+						<!-- 
+						<li style="border-bottom:0px;"><span class="select_menu_span" onclick="javascript:window.location.href='/userindex/gocover!queryBasicInfo.action'">我要上封面</span></li>
+						 -->
+					</ul>
+				</div>
+			</div>
+			</span>
+		</div>
+	</div>
+</div>
+
+<div class="contentsl" style="height:775px;">
+	<div class="weather">
+		<!-- 
+		<img src="/images/loading.gif" id="sj_img" class="loding_img">
+		 -->
+		<img src="/images/weather.jpg" class="show_img"/>
+		
+		<div class="weather_tmp">
+		</div>
+		<div class="weather_img">
+		</div>
+		
+		<!-- 
+		<div class="top-day">
+			<p class="iyear"></p>
+			<p class="iday"></p>
+		</div>
+		<div style="float: right;position: absolute;width: 64px;">
+			<p class="itime">
+				<img src="/images/weather/100.png"/>
+			</p>
+		</div>
+		 -->
+		
+	</div>
+	<div class="contentsl-li">
+		<!-- menu_ul不要放任何代码，否则无法加载菜单 -->
+		<ul id="menu_ul"></ul>
+	</div>
+
+</div>
+
+<script src="/js/main.js" type="text/javascript"></script>
+			
+			<!-- 各界面coding -->
+			<div class="contentsr" id="content_div">
+				<!-- 加载各界面 -->
+				<div class="nav">
+					<div class="home">
+						<a href="#"><span></span></a>
+					</div>
+					<div class="nav-li cos">
+						<a href="#"></a>
+					</div>
+				</div>
+		
+				<div class="personal-li">
+				</div>
+		
+				<div style="height: 262px;">
+					<div class="personal-nav" style="margin-right: 9px;border-bottom: 2px solid #206bae;width: 619px;">
+						<div id="slideBox" class="slideBox" style="position: relative;">
+							<div class="hd">
+								<ul>
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+								</ul>
+							</div>
+							<div class="bd">
+								<ul>
+									<li id="newhubli" style="cursor: pointer;"><img src="images/slideBox/p0.jpg" alt="1" /></li>
+									<li><img src="images/slideBox/p1.jpg" alt="1" /></li>
+									<li onclick="javasciprt:window.location.href='/userindex/gocover!queryBasicInfo.action'" style="cursor: pointer;"><img src="images/slideBox/p2.png" alt="我要上封面" /></li>
+									
+									 	<li onclick="javasciprt:window.open('http://registrar.hust.edu.cn/informationDetail.action?id=UIP201506121157008592576')" style="cursor: pointer;"><img src="images/slideBox/p3.jpg" alt="光阴的故事" /></li>
+									 
+									
+									<li onclick="javasciprt:window.open('http://registrar.hust.edu.cn/informationDetail.action?id=UIP201507101643192340523')" style="cursor: pointer;"><img src="images/slideBox/p4.jpg" alt="四六级大数据" /></li>
+									<li onclick="javasciprt:window.open('http://registrar.hust.edu.cn/informationDetail.action?id=UIP201506011724414372857')" style="cursor: pointer;"><img src="images/slideBox/p5.jpg" alt="生日大数据" /></li>
+								</ul>
+							</div>
+
+							<a class="prev" href="javascript:void(0)"></a>
+							<a class="next" href="javascript:void(0)"></a>
+						</div>
+
+						<!--<div class="txt" style="visibility: hidden;">华科师生交流系统</div>-->
+
+					</div>
+					
+					<!--<div class="personal-nav" style="margin-right: 9px;border-bottom: 2px solid #3399ff;">
+						<div class="img"><img src="images/p2.jpg"></div>
+						<div class="txt" style="text-align: left;"><img src="images/ic1.png" style="margin-left: 12px;margin-right: 12px;margin-top: 14px;float: left;">华科师生交流系统</div>
+					</div>-->
+					
+					
+					
+					
+					<div class="personal-nav" style="border-bottom: 2px solid #3399ff;">
+						<div class="ac-li" id="courses_div" style="overflow: auto">
+						</div>
+						
+						<div class="txt">
+							<span style="float: left">
+								<img src="images/ic7.png" style="margin-left: 12px;margin-right: 12px;margin-top: 14px;float: left;""/>
+								<span style="color:#FF7267;cursor: pointer;" id="kc_tod">今日</span>
+								<span style="color:#4a4a4a;cursor: pointer;margin-left: 5px;" id="kc_tom">明日</span>
+							</span>
+							<span style="cursor: pointer;">
+							<label onclick="javascript:window.location.href='/aam/report/scheduleQuery.jsp'" style="left: 50px;top: 0px;position: relative;">我的课程表</label>
+							<img src="images/ic8.png" style="left: 50px;top: 0px;position: relative;" onclick="javascript:window.location.href='/aam/report/scheduleQuery.jsp'"/>
+							<span>
+						</div>
+						<!-- 
+						<div class="txt" style="text-align: left;"><img src="images/ic7.png" style="margin-left: 12px;margin-right: 12px;margin-top: 14px;float: left;">我的课程表<a href="personal5.html"><img src="images/ic8.png" style="margin-left: 12px;margin-right: 12px;margin-top: 20px;float:right;"></a></div>
+						 -->
+					</div>
+				</div>
+		
+		
+		
+				<div class="p-new" style="width: 548px;margin-bottom: 20px;min-height: 180px;">
+					<div class="p-new-top">
+						<img src="images/new.png" class="p-new1"> 新闻公告
+						<img src="images/new2.png" class="p-new2" style="cursor: pointer;" onclick="javascript:window.location.href='/userindex/news!queryNewsList.action'">
+					</div>
+					<div class="txt" id="news_div">
+						<img src="/images/loading2.gif" style="margin-top: 40px;margin-left: 270px;"/>
+					</div>
+		
+				</div>
+		
+				<div>
+		
+					<div class="p-new" style="width: 372px;margin-left: 13px;min-height: 180px;">
+						<div class="p-new-top">
+							<img src="images/new3.png" class="p-new1"> 帮助下载
+							<img src="images/new2.png" class="p-new2" style="cursor: pointer;" onclick="javascript:window.location.href='/userindex/helps!queryHelpsList.action'">
+						</div>
+						<div class="txt" id="helps_div">
+							<img src="/images/loading2.gif" style="margin-top: 40px;margin-left: 170px;"/>
+						</div>
+					</div>
+		
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="new_hub" style="width: 976px;height: 594px;position: absolute;left:50%;margin-left:-488px;top: -600px;z-index: 10;background: #e8e8e8;border-radius: 6px;">
+			<div class="news-top">
+				<span class="gb pointer gb-new"></span>
+			</div>
+
+			<div class="news-body news-bodys" style="display: block;height: 540px;position: relative;overflow: auto;">
+				<div style="margin: 10px;">
+					<p style="line-height: 30px;margin: 10px;font-weight: bolder;text-align: center;font-size: 20px;">新HUB，新体验</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;">华中科技大学HUB系统是学校教学信息服务平台。继新版“学生注册管理信息系统”、“HUB系统微信平台”相继发布之后，注册中心于近日发布了<label style="font-weight: bold;">新版HUB系统</label>。</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;font-weight: bolder;">1. 一站式服务</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;">新版HUB系统最大的特点就是与用户类型有关的所有功能都<label style="font-weight: bold;">集成在一个页面内</label>，不用到各业务系统中去找菜单，享受一站式服务，让用户体验一步到位。但基于HUB系统内部结构的复杂性，部分系统还是暂时会跳转到其他业务系统中，后期会全部集成到新HUB中。</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;font-weight: bolder;">2. 扁平化菜单</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;">新版HUB系统在原有菜单的基础上，增加了快捷菜单方式，并采用<label style="font-weight: bold;">扁平化菜单及磁贴式的设计理念</label>，让用户一目了然。传统的菜单模式依然存在，但对菜单进行了大幅整合和精简，菜单的逻辑结果清晰、明了、简单，可快速方便按定位到所需功能。</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;font-weight: bolder;">3. 全新设计风格</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;">新版HUB系统采用全新的设计风格和设计理念，整个界面布局合理明晰，清新脱俗，但却不失庄重大方，页面的<label style="font-weight: bold;">每一个元素都经过设计师的精心打磨</label>，希望能给大家一个不一样的体验。但在使用的过程中有可能会因为浏览器的不同而有所变化，注册中心也会进一步进行适应性测试和不断改进。</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;font-weight: bolder;">4. 私人订制化服务</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;">新版HUB系统为<label style="font-weight: bold;">每一位用户订制了属于自己的私人空间</label>，每类学生和每个学生登录后看到的内容均不相同。最为明显的就是课表，在登录后页面的中间部分集成了今天课表、明天课表和本学期所有课表，方便用户查询与本人息息相关教学内容。如果你需要更多，请联系注册中心，告诉我们你的想法。首先推出的为学生版界面，后续将推出教师版。</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;font-weight: bolder;">5. 便捷的邮件订阅与退订</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;">新版HUB系统提供了订阅和退订的功能。众所周知，HUB系统内嵌了“统一通讯平台”的发送邮件和微信功能，每一个邮件主题都是可以定制化的订阅和退订的，除了系统邮件外，你可以任意订阅你想接收的，退订你不想接收的。选择<label style="font-weight: bold;">右上方的你的头像，下拉框</label>中最后一个菜单就可以开始你的订阅和退订了。</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;font-weight: bolder;">6. 灵活的登录方式</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;">新版HUB系统提供了多种登录方式，不仅可以使用学号或教工号作为用户名，还可以使用登记过的<label style="font-weight: bold;">手机号码和电子邮箱</label>，当然密码依然是原来的HUB系统密码。此外，不需要选择教师或学生身份，系统会自动进行判断。登录功能进一步强大，界面更加简单。</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;font-weight: bolder;">7.大气的登录封面</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;">新版HUB系统突破传统登录界面，使用我校优秀学子作为封面人物，<label style="font-weight: bold;">让品学兼优成为一种时尚</label>，只要你有兴趣有条件都可以报名作为HUB系统封面人物，那就快来吧，点击“<span onclick="javascript:window.location.href='/userindex/gocover!queryBasicInfo.action'" style="font-size:18px;font-weight: bold;cursor: pointer;">此处</span>”报名吧，或者点击登录后首页滚动新闻中的“我要上封面”就可以开始报名了，HUB系统等着你。</p>
+					<p style="line-height: 30px;margin: 10px;text-indent: 2em;">新版HUB系统还在继续开发中，这项计划还准备为了更多的用户提供私人订制化的服务，不仅仅针对桌面和笔记本电脑，也会逐步渗入到平板和手机端，有关新版HUB系统的更多特点和功能，相信你会体验更多。</p>
+					<p style="line-height: 30px;margin: 10px;text-align: right;">注册中心</p>
+					<p style="line-height: 30px;margin: 10px;text-align: right;">2015年9月29日</p>
+				</div>
+			</div>
+		</div>
+		
+		<form action="" method="post" id="querycontentfrm">
+			<input type="hidden" name="id" id="id"/>
+			<input type="hidden" name="ym" id="ym"/>
+		</form>
+		
+		<!-- 落款 -->
+		
+<div class="footer">地址：湖北省武汉市洪山区珞喻路1037号　邮政编码：430074　电话：027-87540900　<span style="margin-right: 8px">&copy 2006-2017　华中科技大学注册中心</span></div>
+
+<div class="bodyb" style="width: 100%;min-width: 1300px;">
+	<img src="/images/background.jpg">
+</div>
+
+<div class="mask"></div>
+		
+		<input type="hidden" id="ishubjsp" value="1"/>
+		
+		<!--<script src="js/jquery.luara.0.0.1.min.js"></script>
+		<script>
+			$(function() {
+				$(".example2").luara({
+					width: "619",
+					height: "200",
+					interval: 4500,
+					selected: "seleted",
+					deriction: "left"
+				});
+			});
+			
+		</script>-->
+		<script src="/js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+		<script>
+			jQuery(".slideBox").slide({
+				mainCell: ".bd ul",
+				effect: "left",
+				autoPlay: true
+			});
+			$(function() {
+				$('.jt').click(function() {
+					$('.ac-li-1').show()
+					$('.ac-li-2').hide()
+					$('.ck .txt span').removeClass('ac')
+					$(this).addClass('ac')
+				})
+				$('.mt').click(function() {
+					$('.ac-li-2').show()
+					$('.ac-li-1').hide()
+					$('.ck .txt span').removeClass('ac')
+					$(this).addClass('ac')
+				})
+			})
+		</script>
+
+		<script type="text/javascript">
+			 //定义全局变量   本科
+			var area_arr = [{
+				name: '选课',
+				id: 1,
+				img: 'images/p1.png',
+				href: "/frames/kslogin.jsp?url=http://wsxk.hust.edu.cn/"
+			}, {
+				name: '成绩查询',
+				id: 2,
+				img: 'images/p2.png',
+				href: "/aam/score/QueryScoreByStudent_readyToQuery.action"
+			}, {
+				name: '重修申请',
+				id: 3,
+				img: 'images/p3.png',
+				href: "/aam/score/Restudy_restudyStart.action"
+			}, {
+				name: '个人照片维护',
+				id: 4,
+				img: 'images/p4.png',
+				href: "/personal/showphotoInfo.jsp"
+			}, {
+				name: '四六级报名',
+				id: 5,
+				img: 'images/p5.png',
+				href: "/aam/slj/CFLTReg.jsp"
+			}, {
+				name: '学籍异动',
+				id: 6,
+				img: 'images/p6.png',
+				href: "/aamstatus/statusprepare.action"
+			}, {
+				name: '课程评价',
+				id: 7,
+				img: 'images/p6.png',
+				href: "/frames/kslogin.jsp?url=http://curriculum.hust.edu.cn/"
+			}, {
+				name: '个人信息查询',
+				id: 8,
+				img: 'images/p7.png',
+				href: "/personal/search_1.action"
+			}, {
+				name: '学期注册',
+				id: 9,
+				img: 'images/p8.png',
+				href: "/frames/kslogin.jsp?url=http://register.hust.edu.cn/"
+			}, {
+				name: '课表查询',
+				id: 10,
+				img: 'images/p9.png',
+				href: "/aam/report/scheduleQuery.jsp"
+			}/*, {
+				name: '密码维护',
+				id: 10,
+				img: 'images/p10.png',
+				href: "/maintenceAccSec/MaintencePw!ReadyToMaintencePw.action"
+			}, {
+				name: '',
+				id: 0,
+				img: 'images/p0.png',
+				href: "#"
+			}*/];
+			
+			// 研究生
+			var area_arryjs = [{
+				name: '制定培养计划',
+				id: 1,
+				img: 'images/p1.png',
+				href: "/frames/kslogin.jsp?url=http://yjsjw.hust.edu.cn/"
+			}, {
+				name: '成绩查询',
+				id: 2,
+				img: 'images/p2.png',
+				href: "/frames/kslogin.jsp?url=http://yjsjw.hust.edu.cn/"
+			}, {
+				name: '申请学籍异动',
+				id: 3,
+				img: 'images/p3.png',
+				href: "/frames/kslogin.jsp?url=http://yjsjw.hust.edu.cn/"
+			}, {
+				name: '个人照片维护',
+				id: 4,
+				img: 'images/p4.png',
+				href: "/personal/showphotoInfo.jsp"
+			}, {
+				name: '四六级报名',
+				id: 5,
+				img: 'images/p5.png',
+				href: "/aam/slj/CFLTReg.jsp"
+			}, {
+				name: '申请奖学金',
+				id: 6,
+				img: 'images/p6.png',
+				href: "/frames/kslogin.jsp?url=http://scholarship.hust.edu.cn/"
+			}, {
+				name: '申请贷款',
+				id: 8,
+				img: 'images/p7.png',
+				href: "/frames/kslogin.jsp?url=http://loan.hust.edu.cn/"
+			}, {
+				name: '出国（境）申请',
+				id: 7,
+				img: 'images/p8.png',
+				href: "/frames/kslogin.jsp?url=http://goabroad.hust.edu.cn/"
+			}, {
+				name: '申请答辩毕业',
+				id: 9,
+				img: 'images/p9.png',
+				href: "/frames/kslogin.jsp?url=http://diploma.hust.edu.cn/"
+			}, {
+				name: '学期注册',
+				id: 10,
+				img: 'images/p10.png',
+				href: "/frames/kslogin.jsp?url=http://register.hust.edu.cn/"
+			}
+			/*, {
+				name: '',
+				id: 0,
+				img: 'images/p0.png',
+				href: "#"
+			}*/
+			];
+			
+				// 高职及其他学生
+			var area_arrqt = [{
+				name: '学期注册',
+				id: 10,
+				img: 'images/p1.png',
+				href: "/frames/kslogin.jsp?url=http://register.hust.edu.cn/"
+			}, {
+				name: '密码维护',
+				id: 2,
+				img: 'images/p2.png',
+				href: "/maintenceAccSec/MaintencePw!ReadyToMaintencePw.action"
+			}, {
+				name: '个人信息查询',
+				id: 7,
+				img: 'images/p3.png',
+				href: "/personal/search_1.action"
+			}, {
+				name: '个人照片维护',
+				id: 4,
+				img: 'images/p4.png',
+				href: "/personal/showphotoInfo.jsp"
+			}, {
+				name: '四六级报名',
+				id: 5,
+				img: 'images/p5.png',
+				href: "/aam/slj/CFLTReg.jsp"
+			}];
+
+			function display_area() {
+			var arr = area_arrqt;
+		
+
+			
+		
+						arr = area_arr;
+					
+		
+				//var div = document.getElementById('personal-li');
+				var html = '<ul>';
+				for (var i = 0, j = arr.length; i < j; i++) {
+					html += '<li class="per-' + arr[i].id + '">' + '<a href="' + arr[i].href + '">' + '<img src="' + arr[i].img + '">' + '<span>' + arr[i].name + '</span>' + '</a>' + '</li>';
+				}
+				html += '</ul>';
+				//div.innerHTML = html;
+				$(".personal-li").html(html);
+				//下面加事件  
+			}
+			
+			$(function() {
+				display_area()
+			})
+		</script>
+	</body>
+
+</html>
+Press any key to end......
